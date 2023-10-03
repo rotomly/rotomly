@@ -1,0 +1,7 @@
+{
+    "name": "@rotomly/rotl-runtime",
+    "version": "0.0.1",
+    "devDependencies": {
+        "@rotomly/rotl-lang": "workspace:*"
+    }
+}

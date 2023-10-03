@@ -1,0 +1,28 @@
+{
+  "$schema": "https://turborepo.org/schema.json",
+  "pipeline": {
+    "clean": {
+      "dependsOn": ["^clean"],
+      "inputs": ["dist"],
+      "outputMode": "full",
+      "cache": false
+    },
+    "build:pre": {
+      "dependsOn": ["clean"],
+      "inputs": ["dist"],
+      "outputMode": "full",
+      "cache": false
+    },
+    "build": {
+      "dependsOn": ["clean", "build:pre", "^build"],
+      "inputs": ["src/**/*"],
+      "outputs": ["dist/**/*"],
+      "outputMode": "full"
+    },
+    "test": {
+      "dependsOn": ["clean", "build"],
+      "inputs": ["test/**/*"],
+      "outputMode": "full"
+    }
+  }
+}

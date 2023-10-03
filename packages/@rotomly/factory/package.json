@@ -1,0 +1,18 @@
+{
+  "name": "@rotomly/factory",
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "cache": "node src/cache.mjs",
+    "clean": "del -f dist",
+    "clean-all": "del -f cache dist",
+    "start": "node src/index.mjs"
+  },
+  "devDependencies": {
+    "del-cli": "5.1.0"
+  },
+  "dependencies": {
+    "cli-progress": "3.12.0",
+    "promise-retry": "2.0.1"
+  }
+}

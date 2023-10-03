@@ -1,0 +1,14 @@
+{
+  "name": "rotomly",
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {
+    "clean": "turbo run clean --concurrency 1",
+    "build": "turbo run build --concurrency 1",
+    "test": "turbo run test --concurrency 1"
+  },
+  "devDependencies": {
+    "turbo": "1.10.14",
+    "vitest": "0.34.6"
+  }
+}
