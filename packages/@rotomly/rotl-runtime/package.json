@@ -1,7 +1,8 @@
 {
-    "name": "@rotomly/rotl-runtime",
-    "version": "0.0.1",
-    "devDependencies": {
-        "@rotomly/rotl-lang": "workspace:*"
-    }
+  "name": "@rotomly/rotl-runtime",
+  "version": "0.0.1",
+  "dependencies": {
+    "@reduxjs/toolkit": "1.9.6",
+    "@rotomly/rotl-lang": "workspace:*"
+  }
 }

@@ -13,37 +13,62 @@ describe("@rotomly/rotl-lang#simple", () => {
     parser.finish();
   });
   it("should call a function", () => {
-    log(parser.feed("(example 42)").results);
+    expect(parser.feed("(example)").results).length(1);
   });
-  it("should call a function with two params", () => {
-    log(parser.feed("(example 42 21)").results);
+  it("should call a function with one int", () => {
+    expect(parser.feed("(example 42)").results).length(1);
+  });
+  it("should call a function with two ints", () => {
+    expect(parser.feed("(example 42 21)").results).length(1);
+  });
+  it("should call a function with one negative int", () => {
+    expect(parser.feed("(example -42)").results).length(1);
   });
   it("should call a function with true", () => {
-    log(parser.feed("(example true)").results);
+    expect(parser.feed("(example true)").results).length(1);
   });
   it("should call a function with false", () => {
-    log(parser.feed("(example false)").results);
+    expect(parser.feed("(example false)").results).length(1);
+  });
+  it("should call a function with two bools", () => {
+    expect(parser.feed("(example true false)").results).length(1);
   });
   it("should call a function with nil", () => {
-    log(parser.feed("(example nil)").results);
+    expect(parser.feed("(example nil)").results).length(1);
   });
   it("should call a function with a symbol", () => {
-    log(parser.feed("(example @foo)").results);
+    expect(parser.feed("(example @foo)").results).length(1);
   });
   it("should call a function with a complex symbol", () => {
-    log(parser.feed("(example @foo-42-xxx)").results);
+    expect(parser.feed("(example @base1_1)").results).length(1);
+  });
+  it("should call a function with a complex symbol using dashes", () => {
+    expect(parser.feed("(example @base1-1)").results).length(1);
   });
   it("should fail to call a function with an incorrect complex symbol", () => {
-    log(parser.feed("(example @foo-42-xxx-)").results)
+    //expect(() => parser.feed("(example @foo-42-xxx-)").results).throws();
+    log(parser.feed("(example @foo-)").results);
   });
   it("should call a function with an enclosed string", () => {
-    log(parser.feed('(example "foo bar baz")').results);
+    expect(parser.feed('(example "foo bar baz")').results).length(1);
+  });
+  it("should call a function with an enclosed string and numbers", () => {
+    expect(parser.feed('(example "foo bar baz 42")').results).length(1);
+  });
+  it.skip("should call a function with an enclosed string and escaped chars", () => {
+    expect(parser.feed('(example "foo bar baz \\" 42")').results).length(1);
   });
   it("should call a function with a simplified string", () => {
-    log(parser.feed("(example 'simple-string-42)").results);
+    expect(parser.feed("(example 'simple)").results).length(1);
+  });
+  it("should call a function with a complex simplified string", () => {
+    expect(parser.feed("(example 'simple-string)").results).length(1);
+  });
+  it("should call a function with a complex simplified string with numbers", () => {
+    expect(parser.feed("(example 'base1-1)").results).length(1);
   });
   it.skip("should call a function with a prop", () => {
-    log(parser.feed("(example :prop 42)").results);
+    log(parser.feed("(example :prop true)").results);
   });
   it("should call '?'", () => {
     log(parser.feed("(? nil)").results);

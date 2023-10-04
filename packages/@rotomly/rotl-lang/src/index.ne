@@ -1,12 +1,15 @@
+#@preprocessor typescript
+
 @{%
-var ReturnFirst = function(data) {
-    return data[0];
-}
 
 var fns = {
     "print"(args) {
         console.log(args[0]);
         return null;
+    },
+    // TODO: Formatting strings by manual replacement
+    "fmt"(args) {
+        return args[0];
     },
     "?"(args) {
         return typeof args[0] !== "undefined" && args[0] !== null;
@@ -27,9 +30,10 @@ var fns = {
 
 %}
 
-Program -> (_ Expression _):*
-
 @builtin "whitespace.ne"
+@builtin "number.ne"
+
+Program -> (_ Expression _):*
 
 Expression -> "(" _ Function (__ Arguments):? _ ")" {%
     function (data) {
@@ -44,20 +48,17 @@ Expression -> "(" _ Function (__ Arguments):? _ ")" {%
 %}
 
 # Functions
-Function -> [^\s]:+ {% function(data) { return data[0].join("") } %}
+Function -> [^\s]:+ {% d => d.flat().join("") %}
 Arguments -> (_ Argument):* {% function(data) {
     return data[0].map(function (e) { return e[1]; });
 } %}
-Argument -> Expression | Symbol | Bool | Integer | Nil | String | Prop
+Argument -> Expression | Symbol | Bool |  Nil | String | Prop | int
 
 # Literals
-Symbol -> "@" [a-zA-Z0-9_\-]:+ [^\-]:? {% function(data) { return data[1].join("") + (data[2] ? data[2] : ""); } %}
-True -> "true" {% function() { return true; } %}
-False -> "false" {% function() { return false; } %}
-Bool -> True | False
-Integer -> [0-9]:+ {% function(data) { return parseInt(data[0].join("")); } %}
-Nil -> "nil" {% function() { return null; } %}
-EnclosedString -> ["] [^"]:* ["] {% function(data) { return data[1].join(""); } %}
-SimpleString -> "'" [a-zA-Z0-9_\-]:+ {% function(data) { return data[1].join(""); } %}
-String -> EnclosedString | SimpleString
+Symbol -> "@" [a-zA-Z0-9_\-]:+ [^\-] {% d => d.flat().join("").slice(1) %}
+Bool -> "true" {% () => true %} | "false" {% () => false %}
+Nil -> "nil" {% () => null %}
+String -> ["] [^"]:* ["] {% d => d[1].join("") %} | "'" [^\s\)]:+ {% d => d[1].join("") %}
 Prop -> ":" [a-zA-Z0-9_\-]:+ [^\-]:? {% function(data) { return data[1].join("") + (data[2] ? data[2] : ""); } %} 
+
+# Integer -> [\-]:? [0-9]:+ {% d => parseInt(d.flat().join("")) %}

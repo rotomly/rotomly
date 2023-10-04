@@ -120,7 +120,7 @@ Where no targetting information is supplied, the following is added.
 >> (target @opponent-active)
 ```
 
-It's very important to note here that targetting information is done via the `>` operator, which applies all computed damage and conditional output to the targets on the right-hand side.
+It's very important to note here that targetting information is done via the `>>` operator, which applies all computed damage and conditional output to the targets on the right-hand side.
 
 ### Damage Types
 
