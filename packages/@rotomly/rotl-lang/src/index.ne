@@ -1,6 +1,34 @@
 #@preprocessor typescript
 
 @{%
+const moo = require("moo");
+const lexer = moo.compile({
+    ws: /[\s]+/,
+    comment: {
+        match: /;[^\n]*/,
+        value: s => s.substring(1)
+    },
+    identifier: {
+        match: /[a-zA-Z_\d\-]+/,
+        type: moo.keywords({
+            fn: "fn",
+            true: "true",
+            false: "false",
+            nil: "nil"
+        })
+    },
+    symbol: {
+        match: /@([a-zA-Z][a-zA-Z\d_-]*(?<![_-]))/
+        value: s => s.substring(1)
+    }
+    string_literal: {
+        match: /"/:
+    },
+    int_literal: {
+        match: /-?[0-9]+/,
+        value: s => parseInt(s)
+    }
+});
 
 var fns = {
     "print"(args) {
@@ -29,6 +57,8 @@ var fns = {
 }
 
 %}
+
+@lexer lexer
 
 @builtin "whitespace.ne"
 @builtin "number.ne"
